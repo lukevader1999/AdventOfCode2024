@@ -6,7 +6,7 @@ class Disk:
 
     def __init__(self):
         #Input verarbeiten
-        input = open("Day 9/input.txt")
+        input = open("Day 9/testInput.txt")
         self.compactFormat = input.read()
         input.close()
 
@@ -57,7 +57,6 @@ class Disk:
 
         return disk
 
-
     def printDisk(self):
         for char in self.disk:
             print(char, end = "")
@@ -87,7 +86,7 @@ class Disk:
 
     def swapBlocks(self, usedBlockStart, usedBlockLength, freeBlockStart, freeBlockLength):
         #Überprüfen ob die Längen passen
-        if usedBlockLength < freeBlockLength:
+        if usedBlockLength > freeBlockLength:
             raise ValueError(f"usedBlockLength {usedBlockLength} is shorther than freeBlockLength {freeBlockLength}")
 
         #Auf Disk schreiben
