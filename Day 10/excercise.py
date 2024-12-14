@@ -1,14 +1,14 @@
 class gridNode():
     def __init__(self, height):
         self.height = height
-        self.score = -1
+        self.ninesReachable = []
         self.alreadyVisited = False
 
 class grid():
 
     def __init__(self):
         self.grid = []
-        input = open("Day 10/textInput.txt")
+        input = open("Day 10/input.txt")
         for line in input:
             gridLine = []
             for point in line:
@@ -42,10 +42,10 @@ class grid():
 
     def visitNeighbours(self, x,y):
         point = self.grid[x][y]
-        newScore = 0
+        allReachables = []
 
         if point.height == 9:
-            point.score = 1
+            point.ninesReachable.append([x,y])
             point.alreadyVisited = True
             return
 
@@ -63,13 +63,13 @@ class grid():
                 continue
 
             if neighbour.alreadyVisited:
-                newScore += neighbour.score
+                allReachables = allReachables + neighbour.ninesReachable
                 continue
 
             self.visitNeighbours(i,j)
-            newScore += neighbour.score
+            allReachables = allReachables + neighbour.ninesReachable
         
-        point.score = newScore
+        point.ninesReachable = allReachables
         point.alreadyVisited = True
 
         return
@@ -80,9 +80,11 @@ class grid():
             x = head[0]
             y = head[1]
             self.visitNeighbours(x,y)
-            headScore = self.grid[x][y].score
-            print(headScore)
-            res += headScore
+            nines = []
+            for point in self.grid[x][y].ninesReachable:
+                if not point in nines:
+                    nines.append(point)
+            res += len(nines) 
         print(res)
 
 grid = grid()
